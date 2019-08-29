@@ -1,13 +1,12 @@
-from ftrack_connect_pipeline.client.publish import QtPipelinePublishWidget
-from ftrack_connect_pipeline_maya.constants import HOST, UI
 
+from ftrack_connect_pipeline.client.publish import QtPipelinePublishWidget
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 
 
 class QtPipelineMayaPublishWidget(MayaQWidgetDockableMixin, QtPipelinePublishWidget):
     '''Dockable maya load widget'''
-    def __init__(self, hostid, parent=None):
-        super(QtPipelineMayaPublishWidget, self).__init__(host=HOST, ui=UI,hostid=hostid, parent=parent)
+    def __init__(self, event_manager, parent=None):
+        super(QtPipelineMayaPublishWidget, self).__init__(event_manager, parent=parent)
         self.setWindowTitle('Maya Pipeline Publisher')
 
     def show(self):
