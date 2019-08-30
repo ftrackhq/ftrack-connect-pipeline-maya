@@ -7,7 +7,7 @@ from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 class QtPipelineMayaLoaderWidget(MayaQWidgetDockableMixin, QtPipelineLoaderWidget):
     '''Dockable maya load widget'''
     def __init__(self, event_manager, parent=None):
-        super(QtPipelineMayaLoaderWidget, self).__init__(event_manager, parent=parent)
+        super(QtPipelineMayaLoaderWidget, self).__init__(event_manager=event_manager, parent=parent)
         self.setWindowTitle('Maya Pipeline Loader{}'.format(hostid))
 
     def show(self):
