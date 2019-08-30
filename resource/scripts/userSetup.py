@@ -66,10 +66,7 @@ def initialise():
         )
 
     else:
-        maya_host.notify_connected_client(
-            event_manager.session,
-            event_manager.hostid
-        )
+        maya_host.notify_connected_client(event_manager)
 
     ftrack_menu = maya_host.get_ftrack_menu()
     # Register and hook the dialog in ftrack menu
