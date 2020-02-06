@@ -15,7 +15,7 @@ from ftrack_connect_pipeline_maya import plugin
 class OutputMayaThumbnailPlugin(plugin.OutputMayaPlugin):
     plugin_name = 'thumbnail'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
         component_name = options['component_name']
         camera_name = options.get('camera_name', 'persp')
 

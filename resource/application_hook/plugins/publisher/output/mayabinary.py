@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_maya import plugin
 class OutputMayaBinaryPlugin(plugin.OutputMayaPlugin):
     plugin_name = 'mayabinary'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(delete=False,

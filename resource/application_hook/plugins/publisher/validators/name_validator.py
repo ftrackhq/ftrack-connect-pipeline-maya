@@ -9,7 +9,7 @@ import maya.cmds as mc
 class CheckGeoNamesValidatorPlugin(plugin.ValidatorMayaPlugin):
     plugin_name = 'name_validator'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
         allObj = mc.ls(data, tr=True)
         for obj in allObj:
             if obj.startswith("ftrack_") == False:

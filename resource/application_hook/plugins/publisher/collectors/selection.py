@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_maya import plugin
 class CollectCameraMayaPlugin(plugin.CollectorMayaPlugin):
     plugin_name = 'selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
         selection = cmd.ls(sl=True)
         return selection
 

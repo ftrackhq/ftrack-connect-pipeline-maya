@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_maya import plugin
 class CollectFromSetMayaPlugin(plugin.CollectorMayaPlugin):
     plugin_name = 'from_set'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
 
         set_name = options['set_name']
         return cmd.sets(set_name, q=True)

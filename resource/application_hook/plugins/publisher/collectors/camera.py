@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_maya import plugin
 class CollectCameraMayaPlugin(plugin.CollectorMayaPlugin):
     plugin_name = 'camera'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, session=None, context=None, data=None, options=None):
         camera_name = options.get('camera_name', 'persp')
         cameras = cmd.ls(camera_name, l=True)
         return cameras
