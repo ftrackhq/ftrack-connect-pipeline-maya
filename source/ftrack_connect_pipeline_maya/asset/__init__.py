@@ -121,6 +121,12 @@ class FtrackAssetNode(FtrackAssetBase):
         '''
         Parent the given *objects* under current ftrack_object
         '''
+        cmd.setAttr(
+            '{}.{}'.format(
+                self.ftrack_object, asset_const.LOADED_OBJECTS
+            ), l=False
+        )
+        connected_objects = []
         for obj in objects:
             if cmd.lockNode(obj, q=True)[0]:
                 cmd.lockNode(obj, l=False)
@@ -133,6 +139,13 @@ class FtrackAssetNode(FtrackAssetBase):
                     '{}.{}'.format(self.ftrack_object, asset_const.ASSET_LINK),
                     '{}.ftrack'.format(obj)
                 )
+                connected_objects.append(obj)
+
+        cmd.setAttr(
+            '{}.{}'.format(
+                self.ftrack_object, asset_const.LOADED_OBJECTS
+            ), str(";".join(connected_objects)), type="string", l=True
+        )
 
     def get_load_mode_from_ftrack_object(self, obj):
         '''Return the load mode used to import the given *obj*.'''

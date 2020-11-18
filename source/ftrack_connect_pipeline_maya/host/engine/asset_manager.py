@@ -36,6 +36,7 @@ class MayaAssetManagerEngine(AssetManagerEngine):
         result_data = {
             'plugin_name': 'discover_assets',
             'plugin_type': 'action',
+            'method': 'discover_assets',
             'status': status,
             'result': result,
             'execution_time': 0,
@@ -69,6 +70,70 @@ class MayaAssetManagerEngine(AssetManagerEngine):
 
         return status, result
 
+    def asset_health(self, asset_info=None, options=None, plugin=None):
+        '''
+        Check the ftrack node connections and return True if it's connected to a
+        maya object False if not
+        '''
+        start_time = time.time()
+        status = constants.UNKNOWN_STATUS
+        result = []
+        message = None
+
+        result_data = {
+            'plugin_name': 'asset_health',
+            'plugin_type': 'action',
+            'method': 'asset_health',
+            'status': status,
+            'result': result,
+            'execution_time': 0,
+            'message': message
+        }
+
+        ftrack_asset_object = self.get_ftrack_asset_object(asset_info)
+
+        nodes_health = []
+        for node in cmd.listConnections(
+                '{}.{}'.format(
+                    ftrack_asset_object.ftrack_object, asset_const.ASSET_LINK
+                )
+        ):
+            if cmd.objExists(node):
+                nodes_health.append(True)
+            else:
+                nodes_health.append(False)
+        if all(nodes_health):
+            result = "full"
+            message = str(
+                'The ftrack_node {}, has all the linked nodes in the scene.'.format(
+                    str(ftrack_asset_object))
+            )
+        elif not any(nodes_health):
+            result = None
+            message = str(
+                'The ftrack_node {}, does not have the linked nodes in the '
+                'scene.'.format(str(ftrack_asset_object))
+            )
+        else:
+            result = "partial"
+            message = str(
+                'Some of the ftrack_node {} linked nodes are not in the '
+                'scene.'.format(str(ftrack_asset_object))
+            )
+        self.logger.debug(message)
+        status = constants.SUCCESS_STATUS
+
+        end_time = time.time()
+        total_time = end_time - start_time
+
+        result_data['status'] = status
+        result_data['result'] = result
+        result_data['execution_time'] = total_time
+        result_data['message'] = message
+
+        self._notify_client(plugin, result_data)
+        return status, result
+
     def remove_asset(self, asset_info, options=None, plugin=None):
         '''
         Removes the given *asset_info* from the scene.
@@ -82,6 +147,7 @@ class MayaAssetManagerEngine(AssetManagerEngine):
         result_data = {
             'plugin_name': 'remove_asset',
             'plugin_type': 'action',
+            'method': 'remove_asset',
             'status': status,
             'result': result,
             'execution_time': 0,
@@ -216,6 +282,7 @@ class MayaAssetManagerEngine(AssetManagerEngine):
         result_data = {
             'plugin_name': 'select_asset',
             'plugin_type': 'action',
+            'method': 'select_asset',
             'status': status,
             'result': result,
             'execution_time': 0,
