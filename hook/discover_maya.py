@@ -14,6 +14,7 @@ logger = logging.getLogger('ftrack_connect_pipeline_maya.discover')
 def on_application_launch(session, event):
     '''Handle application launch and add environment to *event*.'''
 
+    app_identifier = event['data']['application']['identifier']
 
     plugin_base_dir = os.path.normpath(
         os.path.join(
@@ -31,6 +32,13 @@ def on_application_launch(session, event):
     maya_script_path = os.path.join(
         plugin_base_dir, 'resource', 'scripts'
     )
+
+    compatibility_libs = ''
+    # Add python 2 compatibility libraries
+    if app_identifier.split("_")[1] <= '2020':
+        compatibility_libs = os.path.join(
+            plugin_base_dir, 'resource', 'python_compatibility'
+        )
 
     python_dependencies = os.path.join(
         plugin_base_dir, 'dependencies'
@@ -52,7 +60,9 @@ def on_application_launch(session, event):
             'version': '0.0.0',
             'env': {
                 'FTRACK_EVENT_PLUGIN_PATH.prepend': plugin_hook,
-                'PYTHONPATH.prepend': os.path.pathsep.join([python_dependencies, maya_script_path]),
+                'PYTHONPATH.prepend': os.path.pathsep.join(
+                    [python_dependencies, maya_script_path, compatibility_libs]
+                ),
                 'MAYA_SCRIPT_PATH': maya_script_path,
                 'MAYA_PLUG_IN_PATH.prepend': maya_plugins_path,
                 'FTRACK_CONTEXTID.set': task['id'],

@@ -1,6 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2019 ftrack
 
+from future import standard_library
+standard_library.install_aliases()
 import os
 import logging
 import re
