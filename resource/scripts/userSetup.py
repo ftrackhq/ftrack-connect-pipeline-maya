@@ -84,6 +84,49 @@ def _open_dialog(dialog_class, event_manager):
 
     created_dialogs[dialog_name].show()
 
+def timeline_init():
+    '''
+    Set the initial framerate with the values set on the shot
+    Setup the timeline.
+    '''
+
+    # Set FPS
+
+    fps = str(os.getenv('FPS'))
+
+    if not fps is None and 0 < len(fps):
+
+        mapping = {
+            '15': 'game',
+            '24': 'film',
+            '25': 'pal',
+            '30': 'ntsc',
+            '48': 'show',
+            '50': 'palf',
+            '60': 'ntscf',
+        }
+
+        fps_maya_type = mapping.get(fps, 'pal')
+        if not fps_maya_type is None:
+            cmds.warning('Setting current unit to {0}'.format(fps))
+            cmds.currentUnit(time=fps_maya_type)
+        else:
+            cmds.warning("Can't translate {} fps to Maya!".format(fps_maya_type))
+    else:
+        cmds.warning('No fps supplied!')
+
+    # Set animation timeline
+
+    start = os.getenv('FS')
+    end = os.getenv('FE')
+
+    if not start is None and 0 < len(start) and not end is None and 0 < len(end):
+        start_int = int(float(start))
+        end_int = int(float(end))
+        cmds.warning('Setting timeline to {0}-{1}'.format(start_int, end_int))
+        cmds.playbackOptions(min=start_int, ast=start_int, aet=end_int, max=end_int)
+
+
 
 def initialise():
     # TODO : later we need to bring back here all the maya initialiations
@@ -139,7 +182,7 @@ def initialise():
             )
         )
 
-
+    timeline_init()
 
 
 cmds.evalDeferred('initialise()', lp=True)
