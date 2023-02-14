@@ -34,11 +34,17 @@ def on_launch_pipeline_maya(session, event):
 
     pipeline_maya_base_data = on_discover_pipeline_maya(session, event)
 
-    maya_plugins_path = os.path.join(plugin_base_dir, 'resource', 'plugins', 'python')
+    maya_plugins_path = os.path.join(
+        plugin_base_dir, 'resource', 'plugins', 'python'
+    )
 
-    maya_definitions_path = os.path.join(plugin_base_dir, 'resource', 'definitions')
+    maya_definitions_path = os.path.join(
+        plugin_base_dir, 'resource', 'definitions'
+    )
 
-    maya_bootstrap_path = os.path.join(plugin_base_dir, 'resource', 'bootstrap')
+    maya_bootstrap_path = os.path.join(
+        plugin_base_dir, 'resource', 'bootstrap'
+    )
 
     maya_bootstrap_plugin_path = os.path.join(maya_bootstrap_path, 'plugins')
 
