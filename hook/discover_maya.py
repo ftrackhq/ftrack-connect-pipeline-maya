@@ -49,7 +49,10 @@ def on_launch_pipeline_maya(session, event):
     maya_bootstrap_plugin_path = os.path.join(maya_bootstrap_path, 'plugins')
 
     pipeline_maya_base_data['integration']['env'] = {
-        'FTRACK_EVENT_PLUGIN_PATH.prepend': maya_plugins_path,
+        'FTRACK_EVENT_PLUGIN_PATH.prepend': os.path.pathsep.join(
+            [maya_plugins_path, maya_definitions_path]
+        ),
+        'FTRACK_DEFINITION_PATH.prepend': maya_definitions_path,
         'PYTHONPATH.prepend': os.path.pathsep.join(
             [python_dependencies, maya_bootstrap_path]
         ),
